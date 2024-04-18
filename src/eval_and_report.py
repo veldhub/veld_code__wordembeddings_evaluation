@@ -1,11 +1,20 @@
 import fasttext
 import numpy as np
+import os
 import yaml
 
+
+# load metadata from environment
+MODEL_ARCH = os.environ.get("MODEL_ARCH")
+MODEL_ID = os.environ.get("MODEL_ID")
+MODEL_TRAIN_REPRODUCIBLE = os.environ.get("MODEL_TRAIN_REPRODUCIBLE")
+MODEL_EVAL_REPRODUCIBLE = os.environ.get("MODEL_EVAL_REPRODUCIBLE")
 
 # override in respective branch
 MODEL_PATH = "/veld/input/1/model.bin"
 EVAL_DATA_PATH = "/veld/input/2/eval_data.yaml"
+EVAL_SUMMARY_PATH = "/veld/output/summary.yaml"
+EVAL_LOG_PATH = "/veld/output/logs/{MODEL_ARCH}/{MODEL_ID}.txt"
 
 
 # override in respective branch
@@ -87,94 +96,92 @@ def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_
     return calculate_closeness_score_of_similarities(sim_base_close, sim_base_distant)
 
 
-def calculate_synonym_score(synonym_data_list, cos_sim_fun):
+def calculate_score(eval_data, nym_kind, cos_sim_fun):
+    print(f"calculating score for {nym_kind}")
     score_list = []
-    for synonym_data in synonym_data_list:
-        word_base = synonym_data[0]
-        word_synonym = synonym_data[1]
-        word_random = synonym_data[2]
+    for nym_data in eval_data[nym_kind]:
+        if nym_kind == "synonyms":
+            word_base = nym_data[0]
+            word_synonym = nym_data[1]
+            word_random = nym_data[2]
+            score = calculate_closeness_score_of_words(
+                word_base=word_base,
+                word_close=word_synonym,
+                word_distant=word_random,
+                cos_sim_func=cos_sim_fun,
+            )
+            score_list.append(score)
 
-        # call function and append result
-        score = calculate_closeness_score_of_words(
-            word_base=word_base,
-            word_close=word_synonym,
-            word_distant=word_random,
-            cos_sim_func=cos_sim_fun,
-        )
-        score_list.append(score)
+        elif nym_kind == "homonyms":
+            word_base = nym_data[0]
+            word_related_1 = nym_data[1]
+            word_related_2 = nym_data[2]
+            word_random = nym_data[3]
+            score_1 = calculate_closeness_score_of_words(
+                word_base=word_base,
+                word_close=word_related_1,
+                word_distant=word_random,
+                cos_sim_func=cos_sim_fun,
+            )
+            score_2 = calculate_closeness_score_of_words(
+                word_base=word_base,
+                word_close=word_related_2,
+                word_distant=word_random,
+                cos_sim_func=cos_sim_fun,
+            )
+            score = (score_1 + score_2) / 2
+            print(f"average score: {score}")
+            score_list.append(score)
+
+        elif nym_kind == "antonyms":
+            word_base = nym_data[0]
+            word_antonym = nym_data[1]
+            word_synonym = nym_data[2]
+            score = calculate_closeness_score_of_words(
+                word_base=word_base,
+                word_close=word_synonym,
+                word_distant=word_antonym,
+                cos_sim_func=cos_sim_fun,
+            )
+            score_list.append(score)
 
     score_avg = round(sum(score_list) / len(score_list), 2)
     print("------------------------------------------------")
-    print(f"total average synonym score: {score_avg}")
-
-
-def calculate_homonym_score(homonym_data_list, cos_sim_fun):
-    score_list = []
-    for homonym_data in homonym_data_list:
-        word_base = homonym_data[0]
-        word_related_1 = homonym_data[1]
-        word_related_2 = homonym_data[2]
-        word_random = homonym_data[3]
-
-        # call function with both related homonym neighbor words, average result, append
-        score_1 = calculate_closeness_score_of_words(
-            word_base=word_base,
-            word_close=word_related_1,
-            word_distant=word_random,
-            cos_sim_func=cos_sim_fun,
-        )
-        score_2 = calculate_closeness_score_of_words(
-            word_base=word_base,
-            word_close=word_related_2,
-            word_distant=word_random,
-            cos_sim_func=cos_sim_fun,
-        )
-        score = (score_1 + score_2) / 2
-        print(f"average score: {score}")
-        score_list.append(score)
-
-    score_avg = round(sum(score_list) / len(score_list), 2)
-    print("------------------------------------------------")
-    print(f"total average homonym score: {score_avg}")
-
-
-def calculate_antonym_score(antonym_data_list, cos_sim_fun):
-    score_list = []
-    for antonym_data in antonym_data_list:
-        word_base = antonym_data[0]
-        word_antonym = antonym_data[1]
-        word_synonym = antonym_data[2]
-
-        # call function and append result
-        score = calculate_closeness_score_of_words(
-            word_base=word_base,
-            word_close=word_synonym,
-            word_distant=word_antonym,
-            cos_sim_func=cos_sim_fun,
-        )
-        score_list.append(score)
-
-    score_avg = round(sum(score_list) / len(score_list), 2)
-    print("------------------------------------------------")
-    print(f"total average antonym score: {score_avg}")
+    print(f"total average score for {nym_kind}: {score_avg}\n")
+    return score_avg
 
 
 def main():
+
+    # run evaluation
     container_model_logic = ContainerModelLogic()
     with open(EVAL_DATA_PATH) as f:
         eval_data = yaml.safe_load(f)
+        score_synonyms = calculate_score(
+            eval_data, 
+            "synonyms", 
+            container_model_logic.cos_sim_of_words
+        )
+        score_homonyms = calculate_score(
+            eval_data, 
+            "homonyms", 
+            container_model_logic.cos_sim_of_words
+        )
+        score_antonyms = calculate_score(
+            eval_data, 
+            "antonyms", 
+            container_model_logic.cos_sim_of_words
+        )
 
-        # synonyms
-        print("\ncalculating synonyms score")
-        calculate_synonym_score(eval_data["synonyms"], container_model_logic.cos_sim_of_words)
-        
-        # homonyms
-        print("\ncalculating homonyms score")
-        calculate_homonym_score(eval_data["homonyms"], container_model_logic.cos_sim_of_words)
-        
-        # antonyms
-        print("\ncalculating antonyms score")
-        calculate_antonym_score(eval_data["antonyms"], container_model_logic.cos_sim_of_words)
+    # read summary
+    # with open(EVAL_SUMMARY_PATH, "r") as f:
+    #     summary_data = yaml.safe_load(f)
+    # 
+    # write summary
+    # with open(EVAL_SUMMARY_PATH, "w") as f:    
+    #     # iteration over dictionary to ensure the yaml writer respects the order
+    #     for k, v in metadata.items():
+    #         yaml.dump({k: v}, f)
 
 
 if __name__ == "__main__":
