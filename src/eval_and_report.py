@@ -1,8 +1,10 @@
+import fasttext
+import numpy as np
 import yaml
 
 
 # override in respective branch
-MODEL_PATH = "/veld/input/1/"
+MODEL_PATH = "/veld/input/1/model.bin"
 EVAL_DATA_PATH = "/veld/input/2/eval_data.yaml"
 
 
@@ -16,7 +18,7 @@ class ContainerModelLogic:
         """
         template method for any initialization logic
         """
-        pass
+        self.model = fasttext.load_model(MODEL_PATH)
 
     def cos_sim_of_words(self, w1, w2):
         """
@@ -29,7 +31,13 @@ class ContainerModelLogic:
         Returns:
         float: cosine similarity, ranging from 0 to 1 
         """
-        pass
+        v1 = self.model.get_word_vector(w1)
+        v2 = self.model.get_word_vector(w2)
+        dp = np.dot(v1, v2)
+        nv1 = np.linalg.norm(v1)
+        nv2 = np.linalg.norm(v2)
+        s = dp / (nv1 * nv2)
+        return s
 
 
 def calculate_closeness_score_of_similarities(sim_base_close, sim_base_distant):
