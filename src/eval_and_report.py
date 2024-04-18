@@ -16,7 +16,6 @@ class ContainerModelLogic:
         """
         template method for any initialization logic
         """
-
         pass
 
     def cos_sim_of_words(self, w1, w2):
@@ -30,7 +29,6 @@ class ContainerModelLogic:
         Returns:
         float: cosine similarity, ranging from 0 to 1 
         """
-
         pass
 
 
