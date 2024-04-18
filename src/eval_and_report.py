@@ -161,16 +161,18 @@ def calculate_antonym_score(antonym_data_list, cos_sim_fun):
 
 def main():
     container_model_logic = ContainerModelLogic()
-
     with open(EVAL_DATA_PATH) as f:
         eval_data = yaml.safe_load(f)
 
+        # synonyms
         print("\ncalculating synonyms score")
         calculate_synonym_score(eval_data["synonyms"], container_model_logic.cos_sim_of_words)
         
+        # homonyms
         print("\ncalculating homonyms score")
         calculate_homonym_score(eval_data["homonyms"], container_model_logic.cos_sim_of_words)
         
+        # antonyms
         print("\ncalculating antonyms score")
         calculate_antonym_score(eval_data["antonyms"], container_model_logic.cos_sim_of_words)
 
