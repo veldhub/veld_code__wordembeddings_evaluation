@@ -2,8 +2,8 @@ import yaml
 
 
 # override in respective branch
-MODEL_PATH = None
-EVAL_DATA_PATH = None
+MODEL_PATH = "/veld/input/1/"
+EVAL_DATA_PATH = "/veld/input/2/eval_data.yaml"
 
 
 # override in respective branch
