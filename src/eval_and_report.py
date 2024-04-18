@@ -82,8 +82,6 @@ def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_
 def calculate_synonym_score(synonym_data_list, cos_sim_fun):
     score_list = []
     for synonym_data in synonym_data_list:
-
-        # extract words
         word_base = synonym_data[0]
         word_synonym = synonym_data[1]
         word_random = synonym_data[2]
@@ -105,8 +103,6 @@ def calculate_synonym_score(synonym_data_list, cos_sim_fun):
 def calculate_homonym_score(homonym_data_list, cos_sim_fun):
     score_list = []
     for homonym_data in homonym_data_list:
-
-        # extract words
         word_base = homonym_data[0]
         word_related_1 = homonym_data[1]
         word_related_2 = homonym_data[2]
