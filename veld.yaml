@@ -1,0 +1,12 @@
+
+x-veld:
+  executable:
+
+
+services:
+  veld:
+    build: .
+    volumes:
+      - ./src/:/veld/executable/
+    working_dir: /veld/executable/
+    command: python /veld/executable/eval_and_report.py
