@@ -74,26 +74,21 @@ def calculate_closeness_score_of_similarities(sim_base_close, sim_base_distant):
     # indeed more distant. The score is negative, if either the closer one is not close enough, or
     # the supposedely distant one is closer than the supposedely closer one.
     score_normalized = (score_combined + 0.5) * 2 / 3
-    print(f"score: {score_normalized}")
 
+    print(f"score: {score_normalized}")
     return score_normalized
 
 
 def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_sim_func):
-
-    # calculate cosine similarities with given function
     sim_base_close = cos_sim_func(word_base, word_close)
     sim_base_distant = cos_sim_func(word_base, word_distant)
     print(f"cosine simliarity between '{word_base}' and '{word_close}': {sim_base_close}")
     print(f"cosine simliarity between '{word_base}' and '{word_distant}': {sim_base_distant}")
-
     return calculate_closeness_score_of_similarities(sim_base_close, sim_base_distant)
 
 
 def calculate_synonym_score(synonym_data_list, cos_sim_fun):
     score_list = []
-
-    # iterate over synonyms
     for synonym_data in synonym_data_list:
 
         # extract words
@@ -110,7 +105,6 @@ def calculate_synonym_score(synonym_data_list, cos_sim_fun):
         )
         score_list.append(score)
 
-    # calculate average of all scores
     score_avg = round(sum(score_list) / len(score_list), 2)
     print("------------------------------------------------")
     print(f"total average synonym score: {score_avg}")
@@ -118,8 +112,6 @@ def calculate_synonym_score(synonym_data_list, cos_sim_fun):
 
 def calculate_homonym_score(homonym_data_list, cos_sim_fun):
     score_list = []
-
-    # iterate over homonyms
     for homonym_data in homonym_data_list:
 
         # extract words
@@ -152,8 +144,6 @@ def calculate_homonym_score(homonym_data_list, cos_sim_fun):
 
 def calculate_antonym_score(antonym_data_list, cos_sim_fun):
     score_list = []
-
-    # iterate over antonyms
     for antonym_data in antonym_data_list:
         word_base = antonym_data[0]
         word_antonym = antonym_data[1]
@@ -168,7 +158,6 @@ def calculate_antonym_score(antonym_data_list, cos_sim_fun):
         )
         score_list.append(score)
 
-    # calculate average of all scores
     score_avg = round(sum(score_list) / len(score_list), 2)
     print("------------------------------------------------")
     print(f"total average antonym score: {score_avg}")
