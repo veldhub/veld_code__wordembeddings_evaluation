@@ -130,17 +130,25 @@ def calculate_score(eval_data, cos_sim_fun):
 def write_summary_and_log(score_all_dict):
 
     def sort_dict_recursively(d):
-        if "synonyms" not in d:
-            d = dict(sorted(d.items()))
-            for k, v in d.items():
-                if isinstance(v, dict):
-                    d[k] = sort_dict_recursively(v)
-        else:
-            # rewrite key values in specific order
-            d["synonyms"] = d["synonyms"]
-            d["homonyms"] = d["homonyms"]
-            d["antonyms"] = d["antonyms"]
-        return d
+        d_new = {}
+
+        # a few hard-coded keys for personal preference reasons
+        if "synonyms" in d:
+            d_new["synonyms"] = d.pop("synonyms")
+            d_new["homonyms"] = d.pop("homonyms")
+            d_new["antonyms"] = d.pop("antonyms")
+        elif "score" and "info" in d:
+            d_new["info"] = sort_dict_recursively(d.pop("info"))
+            d_new["score"] = sort_dict_recursively(d.pop("score"))
+
+        # remaining elements sorted alphabetically
+        for k, v in sorted(d.items()):
+            if isinstance(v, dict):
+                d_new[k] = sort_dict_recursively(v)
+            else:
+                d_new[k] = v
+
+        return d_new
 
     # read in existing summary
     with open(EVAL_SUMMARY_PATH, "r") as f:
