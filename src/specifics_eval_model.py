@@ -8,7 +8,7 @@ EVAL_SUMMARY_PATH = "/veld/output/summary.yaml"
 
 # model metadata 
 # TODO: ADAPT THIS TO YOUR SETUP
-MODEL_PATH = "/veld/input/1/m1/word2vec.model_de"
+MODEL_PATH = "/veld/input/1/word2vec.model_de_20240422"
 MODEL_ARCH = os.environ.get("MODEL_ARCH")
 MODEL_ID = os.environ.get("MODEL_ID")
 MODEL_INFO = {"word2vec_TEMPLATE": None}
