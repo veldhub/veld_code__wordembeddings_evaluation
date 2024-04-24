@@ -5,21 +5,30 @@ import numpy as np
 import yaml
 
 
-# eval metadata
-EVAL_DATA_PATH = "/veld/input/2/eval_data.yaml"
-EVAL_SUMMARY_PATH = "/veld/output/summary.yaml"
+# file mounts, model
+MODEL_PATH = "/veld/input/model.bin"
+MODEL_INFO_PATH = "/veld/input/metadata.yaml"
 
-# model metadata
-MODEL_PATH = "/veld/input/1/model.bin"
+# file mounts, evaluation
+EVAL_DATA_PATH = "/veld/input/eval_data.yaml"
+EVAL_SUMMARY_PATH = "/veld/output/summary.yaml"
+EVAL_LOG_PATH = "/veld/output/logs/"
+
+# environment metadata
 MODEL_ARCH = os.environ.get("MODEL_ARCH")
 MODEL_ID = os.environ.get("MODEL_ID")
+MODEL_TRAIN_REPRODUCIBLE = os.environ.get("MODEL_TRAIN_REPRODUCIBLE")
+
 MODEL_INFO = None
-with open("/veld/input/1/metadata.yaml", "r") as f:
-    MODEL_INFO = yaml.safe_load(f)
-    MODEL_INFO["training_reproducible_at"]: os.environ.get("MODEL_TRAIN_REPRODUCIBLE") 
+try:
+    with open(MODEL_INFO_PATH, "r") as f:
+        MODEL_INFO = yaml.safe_load(f)
+        MODEL_INFO["training_reproducible_at"]: MODEL_TRAIN_REPRODUCIBLE
+except:
+    pass
 
 
-# override in respective branch
+# TODO: ADAPT THIS TO YOUR SETUP
 class ModelLogicContainer:
     """
     template class for all code dealing with model specifics
@@ -27,7 +36,7 @@ class ModelLogicContainer:
 
     def __init__(self):
         """
-        template method for any initialization logic
+        template method for any initialization logic. This method should not need any parameters.
         """
         self.model = fasttext.load_model(MODEL_PATH)
 
