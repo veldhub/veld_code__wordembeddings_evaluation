@@ -30,8 +30,8 @@ x-veld:
         optional: true
     outputs:
       a:
-        path: /veld/output/summary.yaml
-        type: file
+        path: /veld/output/
+        type: folder
         description: final overview file of all evaluations and context
       b:
         path: /veld/output/logs/
