@@ -14,7 +14,6 @@ x-veld:
       c:
         path: /veld/input/eval_data.yaml
         type: file
-        type: evaluation data
         description: evluation data in specific format as required by evaluation logic
       d:
         var: MODEL_ARCH
