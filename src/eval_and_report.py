@@ -147,7 +147,6 @@ def write_summary_and_log(score_all_dict):
                     d_new[k] = v
         else:
             d_new = None
-
         return d_new
 
     # read in existing summary
