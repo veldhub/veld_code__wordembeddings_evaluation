@@ -28,7 +28,6 @@ except:
     pass
 
 
-# TODO: ADAPT THIS TO YOUR SETUP
 class ModelLogicContainer:
     """
     template class for all code dealing with model specifics
