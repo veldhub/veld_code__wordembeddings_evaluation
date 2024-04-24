@@ -19,6 +19,7 @@ MODEL_ARCH = os.environ.get("MODEL_ARCH")
 MODEL_ID = os.environ.get("MODEL_ID")
 MODEL_TRAIN_REPRODUCIBLE = os.environ.get("MODEL_TRAIN_REPRODUCIBLE")
 
+# load optional meta info, if it exists
 MODEL_INFO = None
 try:
     with open(MODEL_INFO_PATH, "r") as f:
