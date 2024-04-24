@@ -5,6 +5,7 @@ import yaml
 from specifics_eval_model import (
     EVAL_DATA_PATH,
     EVAL_SUMMARY_PATH,
+    EVAL_LOG_PATH,
     MODEL_ARCH, 
     MODEL_ID, 
     MODEL_INFO,
@@ -130,23 +131,27 @@ def calculate_score(eval_data, cos_sim_fun):
 def write_summary_and_log(score_all_dict):
 
     def sort_dict_recursively(d):
-        d_new = {}
+        if d is not None:
+            d_new = {}
 
-        # a few hard-coded keys for personal preference reasons
-        if "synonyms" in d:
-            d_new["synonyms"] = d.pop("synonyms")
-            d_new["homonyms"] = d.pop("homonyms")
-            d_new["antonyms"] = d.pop("antonyms")
-        elif "score" and "info" in d:
-            d_new["info"] = sort_dict_recursively(d.pop("info"))
-            d_new["score"] = sort_dict_recursively(d.pop("score"))
+            # a few hard-coded keys for personal preference reasons
+            if "synonyms" in d:
+                d_new["synonyms"] = d.pop("synonyms")
+                d_new["homonyms"] = d.pop("homonyms")
+                d_new["antonyms"] = d.pop("antonyms")
+            elif "score" and "info" in d:
+                d_new["info"] = sort_dict_recursively(d.pop("info"))
+                d_new["score"] = sort_dict_recursively(d.pop("score"))
 
-        # remaining elements sorted alphabetically
-        for k, v in sorted(d.items()):
-            if isinstance(v, dict):
-                d_new[k] = sort_dict_recursively(v)
-            else:
-                d_new[k] = v
+            # remaining elements sorted alphabetically
+            for k, v in sorted(d.items()):
+                if isinstance(v, dict):
+                    d_new[k] = sort_dict_recursively(v)
+                else:
+                    d_new[k] = v
+
+        else:
+            d_new = None
 
         return d_new
 
@@ -169,8 +174,7 @@ def write_summary_and_log(score_all_dict):
         yaml.dump(summary_dict, f, sort_keys=False)
 
     # write log
-    path_log = "/veld/output/logs/"
-    path_log_model_arch = path_log + MODEL_ARCH
+    path_log_model_arch = EVAL_LOG_PATH + MODEL_ARCH
     if not os.path.exists(path_log_model_arch):
         os.makedirs(path_log_model_arch)
     path_log_model_id = path_log_model_arch + "/" + MODEL_ID + ".txt"

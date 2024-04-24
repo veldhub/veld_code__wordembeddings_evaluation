@@ -1,16 +1,29 @@
 import os
 
+import yaml
 
-# eval metadata
-EVAL_DATA_PATH = "/veld/input/2/eval_data.yaml"
+
+# file mounts, model
+MODEL_PATH = "/veld/input/model.bin"
+MODEL_INFO_PATH = "/veld/input/metadata.yaml"
+
+# file mounts, evaluation
+EVAL_DATA_PATH = "/veld/input/eval_data.yaml"
 EVAL_SUMMARY_PATH = "/veld/output/summary.yaml"
+EVAL_LOG_PATH = "/veld/output/logs/"
 
-# model metadata 
-# TODO: ADAPT THIS TO YOUR SETUP
-MODEL_PATH = None
+# environment metadata
 MODEL_ARCH = os.environ.get("MODEL_ARCH")
 MODEL_ID = os.environ.get("MODEL_ID")
+MODEL_TRAIN_REPRODUCIBLE = os.environ.get("MODEL_TRAIN_REPRODUCIBLE")
+
 MODEL_INFO = None
+try:
+    with open(MODEL_INFO_PATH, "r") as f:
+        MODEL_INFO = yaml.safe_load(f)
+        MODEL_INFO["training_reproducible_at"]: MODEL_TRAIN_REPRODUCIBLE
+except:
+    pass
 
 
 # TODO: ADAPT THIS TO YOUR SETUP
