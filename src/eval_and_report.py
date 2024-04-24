@@ -86,7 +86,6 @@ def calculate_score(eval_data, cos_sim_fun):
                     cos_sim_func=cos_sim_fun,
                 )
                 score_list.append(score)
-
             elif nym_kind == "homonyms":
                 word_base = nym_data[0]
                 word_related_1 = nym_data[1]
@@ -107,7 +106,6 @@ def calculate_score(eval_data, cos_sim_fun):
                 score = (score_1 + score_2) / 2
                 print_and_cache(f"average score: {score}")
                 score_list.append(score)
-
             elif nym_kind == "antonyms":
                 word_base = nym_data[0]
                 word_antonym = nym_data[1]
@@ -119,12 +117,10 @@ def calculate_score(eval_data, cos_sim_fun):
                     cos_sim_func=cos_sim_fun,
                 )
                 score_list.append(score)
-
         score_avg = round(sum(score_list) / len(score_list), 2)
         score_all_dict[nym_kind] = score_avg
         print_and_cache("------------------------------------------------")
         print_and_cache(f"total average score for {nym_kind}: {score_avg}\n")
-
     return score_all_dict
 
 
@@ -149,7 +145,6 @@ def write_summary_and_log(score_all_dict):
                     d_new[k] = sort_dict_recursively(v)
                 else:
                     d_new[k] = v
-
         else:
             d_new = None
 
