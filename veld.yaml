@@ -2,38 +2,38 @@
 x-veld:
   executable:
     inputs:
-      a:
+      -
         path: /veld/input/model.bin
         type: file
         description: nlp model binary data
-      b:
+      -
         path: /veld/input/metadata.yaml
         type: file
         description: nlp model metadata
         optional: true
-      c:
+      -
         path: /veld/input/eval_data.yaml
         type: file
         description: evluation data in specific format as required by evaluation logic
-      d:
+      -
         var: MODEL_ARCH
         type: environment variable
         description: name of the overall architecture and setup
-      e:
+      -
         var: MODEL_ID
         type: environment variable
         description: id of the specific model
-      f:
+      -
         var: MODEL_TRAIN_REPRODUCIBLE
         type: environment variable
         description: url of commit to training chain which produced that model
         optional: true
     outputs:
-      a:
+      -
         path: /veld/output/
         type: folder
         description: final overview file of all evaluations and context
-      b:
+      -
         path: /veld/output/logs/
         type: folder
         description: will produce detailed logs of evaluation under model specific folder structure
