@@ -5,6 +5,7 @@ import yaml
 from specifics_eval_model import (
     EVAL_DATA_PATH,
     EVAL_SUMMARY_PATH,
+    EVAL_LOG_PATH,
     MODEL_ARCH, 
     MODEL_ID, 
     MODEL_INFO,
@@ -85,7 +86,6 @@ def calculate_score(eval_data, cos_sim_fun):
                     cos_sim_func=cos_sim_fun,
                 )
                 score_list.append(score)
-
             elif nym_kind == "homonyms":
                 word_base = nym_data[0]
                 word_related_1 = nym_data[1]
@@ -106,7 +106,6 @@ def calculate_score(eval_data, cos_sim_fun):
                 score = (score_1 + score_2) / 2
                 print_and_cache(f"average score: {score}")
                 score_list.append(score)
-
             elif nym_kind == "antonyms":
                 word_base = nym_data[0]
                 word_antonym = nym_data[1]
@@ -118,29 +117,37 @@ def calculate_score(eval_data, cos_sim_fun):
                     cos_sim_func=cos_sim_fun,
                 )
                 score_list.append(score)
-
         score_avg = round(sum(score_list) / len(score_list), 2)
         score_all_dict[nym_kind] = score_avg
         print_and_cache("------------------------------------------------")
         print_and_cache(f"total average score for {nym_kind}: {score_avg}\n")
-
     return score_all_dict
 
 
 def write_summary_and_log(score_all_dict):
 
     def sort_dict_recursively(d):
-        if "synonyms" not in d:
-            d = dict(sorted(d.items()))
-            for k, v in d.items():
+        if d is not None:
+            d_new = {}
+
+            # a few hard-coded keys for personal preference reasons
+            if "synonyms" in d:
+                d_new["synonyms"] = d.pop("synonyms")
+                d_new["homonyms"] = d.pop("homonyms")
+                d_new["antonyms"] = d.pop("antonyms")
+            elif "score" and "info" in d:
+                d_new["info"] = sort_dict_recursively(d.pop("info"))
+                d_new["score"] = sort_dict_recursively(d.pop("score"))
+
+            # remaining elements sorted alphabetically
+            for k, v in sorted(d.items()):
                 if isinstance(v, dict):
-                    d[k] = sort_dict_recursively(v)
+                    d_new[k] = sort_dict_recursively(v)
+                else:
+                    d_new[k] = v
         else:
-            # rewrite key values in specific order
-            d["synonyms"] = d["synonyms"]
-            d["homonyms"] = d["homonyms"]
-            d["antonyms"] = d["antonyms"]
-        return d
+            d_new = None
+        return d_new
 
     # read in existing summary
     with open(EVAL_SUMMARY_PATH, "r") as f:
@@ -161,8 +168,7 @@ def write_summary_and_log(score_all_dict):
         yaml.dump(summary_dict, f, sort_keys=False)
 
     # write log
-    path_log = "/veld/output/logs/"
-    path_log_model_arch = path_log + MODEL_ARCH
+    path_log_model_arch = EVAL_LOG_PATH + MODEL_ARCH
     if not os.path.exists(path_log_model_arch):
         os.makedirs(path_log_model_arch)
     path_log_model_id = path_log_model_arch + "/" + MODEL_ID + ".txt"

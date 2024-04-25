@@ -1,7 +1,43 @@
 
 x-veld:
   executable:
-
+    inputs:
+      -
+        path: /veld/input/model/
+        type: folder
+        description: "a folder containing word2vec model data. Important: the model file must end with .model"
+      -
+        path: /veld/input/metadata.yaml
+        type: file
+        description: nlp model metadata
+        optional: true
+      -
+        path: /veld/input/eval_data.yaml
+        type: file
+        description: evluation data in specific format as required by evaluation logic
+      -
+        var: MODEL_ARCH
+        type: environment variable
+        description: name of the overall architecture and setup
+      -
+        var: MODEL_ID
+        type: environment variable
+        description: id of the specific model
+      -
+        var: MODEL_TRAIN_REPRODUCIBLE
+        type: environment variable
+        description: url of commit to training chain which produced that model
+        optional: true
+    outputs:
+      -
+        path: /veld/output/
+        type: folder
+        description: final overview file of all evaluations and context
+      -
+        path: /veld/output/logs/
+        type: folder
+        description: will produce detailed logs of evaluation under model specific folder structure
+        
 
 services:
   veld:
