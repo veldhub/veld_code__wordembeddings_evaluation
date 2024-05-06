@@ -151,17 +151,6 @@ def write_summary_and_log(score_all_dict, model_metadata):
     # convert scores from numpy types to python native for native yaml processing
     score_all_dict = {k: float(v) for k, v in score_all_dict.items()}
 
-    # read in existing summary
-    # with open(EVAL_SUMMARY_PATH, "r") as f:
-    #     summary_dict = yaml.safe_load(f)
-    # 
-    # # load data into summary dict
-    # if summary_dict is None:
-    #     summary_dict = {}
-    # if MODEL_ARCH not in summary_dict:
-    #     summary_dict[MODEL_ARCH] = {}
-    # summary_dict[MODEL_ARCH][MODEL_ID] = {}
-
     # load model metadata
     model_arch = model_metadata.pop("model_arch")
     model_id = model_metadata.pop("model_id")
