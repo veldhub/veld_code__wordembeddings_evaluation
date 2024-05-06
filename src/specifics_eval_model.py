@@ -13,7 +13,7 @@ if MODEL_METADATA_PATH is None:
     raise Exception("no model_metadata_path defined.")
 
 
-# load optional meta info
+# load meta info
 MODEL_METADATA = {}
 try:
     with open(MODEL_METADATA_PATH, "r") as f:
