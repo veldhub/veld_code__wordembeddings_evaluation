@@ -12,7 +12,7 @@ if MODEL_METADATA_PATH is None:
     raise Exception("no model_metadata_path defined.")
 
 
-# load optional meta info
+# load meta info
 MODEL_METADATA = {}
 try:
     with open(MODEL_METADATA_PATH, "r") as f:
@@ -30,9 +30,9 @@ class ModelLogicContainer:
         """
         template method for any initialization logic. This method should not need any parameters.
         """
-	self.metadata = MODEL_METADATA
+        self.metadata = MODEL_METADATA
 
-	# TODO: implement initialization of model here
+        # TODO: implement initialization of model here
         pass
 
     def cos_sim_of_words(self, w1, w2):
@@ -47,6 +47,6 @@ class ModelLogicContainer:
         float: cosine similarity, ranging from 0 to 1 
         """
 
-	# TODO: implement vector comparision here
+        # TODO: implement vector comparision here
         pass
 

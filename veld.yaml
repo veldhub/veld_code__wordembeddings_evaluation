@@ -4,7 +4,9 @@ x-veld:
 
     inputs:
       - volume: /veld/input/1/
-        type: "word2vec model"
+        type: 
+          - "word2vec model"
+          - "fasttext model"
         content:
           - "NLP model"
           - "word embeddings model"
@@ -23,7 +25,7 @@ x-veld:
 
     environment:
       model_path:
-        description: "path to word2vec model file."
+        description: "path to model file."
         type: string
         prefix: "/veld/input/1/"
       model_metadata_path:
