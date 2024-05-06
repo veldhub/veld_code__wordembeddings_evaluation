@@ -1,43 +1,62 @@
 
 x-veld:
   executable:
+
     inputs:
-      -
-        path: /veld/input/model.bin
-        type: file
-        description: nlp model binary data
-      -
-        path: /veld/input/metadata.yaml
-        type: file
-        description: nlp model metadata
-        optional: true
-      -
-        path: /veld/input/eval_data.yaml
-        type: file
-        description: evluation data in specific format as required by evaluation logic
-      -
-        var: MODEL_ARCH
-        type: environment variable
-        description: name of the overall architecture and setup
-      -
-        var: MODEL_ID
-        type: environment variable
-        description: id of the specific model
-      -
-        var: MODEL_TRAIN_REPRODUCIBLE
-        type: environment variable
-        description: url of commit to training chain which produced that model
-        optional: true
+      - volume: /veld/input/1/
+        type: "word2vec model"
+        content:
+          - "NLP model"
+          - "word embeddings model"
+      - volume: /veld/input/2/
+        type: "yaml"
+        content:
+          - "NLP evaluation data"
+          - "NLP data"
+
     outputs:
-      -
-        path: /veld/output/
-        type: folder
-        description: final overview file of all evaluations and context
-      -
-        path: /veld/output/logs/
-        type: folder
-        description: will produce detailed logs of evaluation under model specific folder structure
-        
+      volume: /veld/output/
+      type: 
+        - "yaml"
+        - "txt"
+      content: "NLP evaluation"
+
+    environment:
+      model_path:
+        description: "path to word2vec model file."
+        type: string
+        prefix: "/veld/input/1/"
+      model_metadata_path:
+        description: "path to metadata yaml file."
+        type: string
+        prefix: "/veld/input/1/"
+      eval_data_path:
+        description: "path to evaluation yaml file."
+        type: string
+        prefix: "/veld/input/2/"
+      eval_results_folder:
+        description: "path to folder where summary and logs will be saved to."
+        type: string
+        prefix: "/veld/output/"
+
+    chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
+      x-veld:
+        chain:
+      services:
+        veld:
+          extends:
+            file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld.yaml
+            service: veld
+          volumes:
+            - ./<REPLACE_WITH_ROOT_FOLDER_OF_MODEL>/:/veld/input/1/
+            - ./<REPLACE_WITH_ROOT_FOLDER_OF_EVALUATION>/:/veld/input/2/
+            - ./<REPLACE_WITH_ROOT_FOLDER_OF_REPORT>/:/veld/output/
+          environment:
+            model_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH>"
+            model_metadata_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH_OR_NOT>"
+            model_train_reproducible: "<REPLACE_OR_NOT>"
+            eval_data_path: "/veld/input/2/<REPLACE_WITH_RELATIVE_PATH>"
+            eval_results_folder: "/veld/output/<REPLACE_WITH_RELATIVE_PATH>"
 
 services:
   veld:
@@ -46,3 +65,4 @@ services:
       - ./src/:/veld/executable/
     working_dir: /veld/executable/
     command: python /veld/executable/eval_and_report.py
+
