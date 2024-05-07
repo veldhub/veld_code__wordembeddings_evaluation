@@ -44,6 +44,9 @@ services:
   veld:
     build: .
     volumes:
+      - ./volumes/input/1/:/veld/input/1/
+      - ./volumes/input/2/:/veld/input/2/
+      - ./volumes/output/:/veld/output/
       - ./src/:/veld/executable/
     working_dir: /veld/executable/
     command: python /veld/executable/eval_and_report.py
