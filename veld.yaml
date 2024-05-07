@@ -50,4 +50,9 @@ services:
       - ./src/:/veld/executable/
     working_dir: /veld/executable/
     command: python /veld/executable/eval_and_report.py
+    environment:
+      model_path: "/veld/input/1/<REPLACE>"
+      model_metadata_path: "/veld/input/1/<REPLACE>"
+      eval_data_path: "/veld/input/2/<REPLACE>"
+      eval_results_folder: "/veld/output/<REPLACE>"
 
