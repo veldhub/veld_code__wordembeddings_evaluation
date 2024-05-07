@@ -40,24 +40,6 @@ x-veld:
         type: string
         path_prefix: "/veld/output/"
 
-    chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
-      x-veld:
-        chain:
-      services:
-        veld:
-          extends:
-            file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld.yaml
-            service: veld
-          volumes:
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_MODEL>/:/veld/input/1/
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_EVALUATION>/:/veld/input/2/
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_REPORT>/:/veld/output/
-          environment:
-            model_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH>"
-            model_metadata_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH_OR_NOT>"
-            eval_data_path: "/veld/input/2/<REPLACE_WITH_RELATIVE_PATH>"
-            eval_results_folder: "/veld/output/<REPLACE_WITH_RELATIVE_PATH>"
-
 services:
   veld:
     build: .
