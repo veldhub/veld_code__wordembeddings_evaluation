@@ -24,21 +24,25 @@ x-veld:
 
     environment:
       model_path:
+        path_prefix: "/veld/input/1/"
         description: "path to model file."
-        type: string
-        path_prefix: "/veld/input/1/"
+        type: 
+          - "word2vec model"
+          - "fasttext model"
       model_metadata_path:
-        description: "path to metadata yaml file."
-        type: string
         path_prefix: "/veld/input/1/"
+        description: "path to metadata yaml file."
+        type: "yaml"
       eval_data_path:
-        description: "path to evaluation yaml file."
-        type: string
         path_prefix: "/veld/input/2/"
+        description: "path to evaluation yaml file."
+        type: "yaml"
       eval_results_folder:
-        description: "path to folder where summary and logs will be saved to."
-        type: string
         path_prefix: "/veld/output/"
+        description: "path to folder where summary and logs will be saved to."
+        type: 
+          - "yaml"
+          - "txt"
 
 services:
   veld:
