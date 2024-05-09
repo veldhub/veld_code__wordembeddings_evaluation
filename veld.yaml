@@ -1,4 +1,3 @@
-
 x-veld:
   executable:
 
@@ -25,46 +24,39 @@ x-veld:
 
     environment:
       model_path:
+        path_prefix: "/veld/input/1/"
         description: "path to model file."
-        type: string
-        prefix: "/veld/input/1/"
+        type: 
+          - "word2vec model"
+          - "fasttext model"
       model_metadata_path:
+        path_prefix: "/veld/input/1/"
         description: "path to metadata yaml file."
-        type: string
-        prefix: "/veld/input/1/"
+        type: "yaml"
       eval_data_path:
+        path_prefix: "/veld/input/2/"
         description: "path to evaluation yaml file."
-        type: string
-        prefix: "/veld/input/2/"
+        type: "yaml"
       eval_results_folder:
+        path_prefix: "/veld/output/"
         description: "path to folder where summary and logs will be saved to."
-        type: string
-        prefix: "/veld/output/"
-
-    chain_template: # you can copy this template below into a new chain veld.yaml for using this executable
-      x-veld:
-        chain:
-      services:
-        veld:
-          extends:
-            file: ./<REPLACE_WITH_ROOT_FOLDER_OF_EXECUTABLE>/veld.yaml
-            service: veld
-          volumes:
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_MODEL>/:/veld/input/1/
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_EVALUATION>/:/veld/input/2/
-            - ./<REPLACE_WITH_ROOT_FOLDER_OF_REPORT>/:/veld/output/
-          environment:
-            model_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH>"
-            model_metadata_path: "/veld/input/1/<REPLACE_WITH_RELATIVE_PATH_OR_NOT>"
-            model_train_reproducible: "<REPLACE_OR_NOT>"
-            eval_data_path: "/veld/input/2/<REPLACE_WITH_RELATIVE_PATH>"
-            eval_results_folder: "/veld/output/<REPLACE_WITH_RELATIVE_PATH>"
+        type: 
+          - "yaml"
+          - "txt"
 
 services:
   veld:
     build: .
     volumes:
+      - ./volumes/input/1/:/veld/input/1/
+      - ./volumes/input/2/:/veld/input/2/
+      - ./volumes/output/:/veld/output/
       - ./src/:/veld/executable/
     working_dir: /veld/executable/
     command: python /veld/executable/eval_and_report.py
+    environment:
+      model_path: "/veld/input/1/<REPLACE>"
+      model_metadata_path: "/veld/input/1/<REPLACE>"
+      eval_data_path: "/veld/input/2/<REPLACE>"
+      eval_results_folder: "/veld/output/<REPLACE>"
 
