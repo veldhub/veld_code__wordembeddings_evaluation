@@ -1,5 +1,4 @@
 import os
-import gensim
 
 import yaml
 
@@ -33,11 +32,9 @@ class ModelLogicContainer:
         """
         self.metadata = MODEL_METADATA
 
-        for file in os.listdir(MODEL_PATH):
-            if file.endswith(".model"):
-                break
-        self.model = gensim.models.Word2Vec.load(MODEL_PATH + "/" + file)
-    
+        # TODO: implement initialization of model here
+        pass
+
     def cos_sim_of_words(self, w1, w2):
         """
         template method for calculating cosine similarity between two words
@@ -49,11 +46,7 @@ class ModelLogicContainer:
         Returns:
         float: cosine similarity, ranging from 0 to 1 
         """
-        try:
-            # Calculate cosine similarity between the word vectors
-            similarity_score = self.model.wv.similarity(w1, w2)
-            return similarity_score
-        except KeyError:
-             # Handle the case where one or both words are not in the vocabulary
-            return None
+
+        # TODO: implement vector comparision here
+        pass
 
