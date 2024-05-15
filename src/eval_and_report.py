@@ -115,7 +115,7 @@ def write_summary_and_log(score_all_dict, model_metadata):
     score_all_dict = {k: float(v) for k, v in score_all_dict.items()}
 
     # load model metadata
-    model_arch = model_metadata.pop("model_arch")
+    training_architecture = model_metadata.pop("training_architecture")
     model_id = model_metadata.pop("model_id")
 
     # create or load existing summary_dict
@@ -125,7 +125,7 @@ def write_summary_and_log(score_all_dict, model_metadata):
         summary_dict_from_file = yaml.safe_load(f)
         if summary_dict_from_file is not None:
             summary_dict = summary_dict_from_file
-    summary_dict[model_arch][model_id] = {
+    summary_dict[training_architecture][model_id] = {
         "info": model_metadata,
         "score": score_all_dict,
     }
@@ -136,10 +136,10 @@ def write_summary_and_log(score_all_dict, model_metadata):
         yaml.dump(summary_dict, f, sort_keys=False)
 
     # write log
-    path_log_model_arch = EVAL_RESULTS_FOLDER + "/logs/" + model_arch
-    if not os.path.exists(path_log_model_arch):
-        os.makedirs(path_log_model_arch)
-    path_log_model_id = path_log_model_arch + "/" + model_id + ".txt"
+    path_log_training_architecture = EVAL_RESULTS_FOLDER + "/logs/" + training_architecture
+    if not os.path.exists(path_log_training_architecture):
+        os.makedirs(path_log_training_architecture)
+    path_log_model_id = path_log_training_architecture + "/" + model_id + ".txt"
     with open(path_log_model_id, "w") as f:
         f.write(log_cache)
 
