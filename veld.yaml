@@ -1,5 +1,5 @@
 x-veld:
-  executable:
+  code:
 
     inputs:
       - volume: /veld/input/1/
@@ -51,9 +51,9 @@ services:
       - ./volumes/input/1/:/veld/input/1/
       - ./volumes/input/2/:/veld/input/2/
       - ./volumes/output/:/veld/output/
-      - ./src/:/veld/executable/
-    working_dir: /veld/executable/
-    command: python /veld/executable/eval_and_report.py
+      - ./src/:/veld/code/
+    working_dir: /veld/code/
+    command: python /veld/code/eval_and_report.py
     environment:
       model_path: "/veld/input/1/<REPLACE>"
       model_metadata_path: "/veld/input/1/<REPLACE>"
