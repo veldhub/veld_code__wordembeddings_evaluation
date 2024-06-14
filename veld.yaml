@@ -1,5 +1,11 @@
 x-veld:
-  executable:
+  code:
+      description: "custom evaluation logic for word2vec, fasttext and glove models"
+      topics:
+        - "NLP"
+        - "Machine Learning"
+        - "word embeddings"
+        - "evaluation"
 
     inputs:
       - volume: /veld/input/1/
