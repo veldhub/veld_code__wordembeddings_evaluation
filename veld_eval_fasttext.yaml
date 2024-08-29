@@ -51,19 +51,18 @@ x-veld:
         path_prefix: "/veld/output/"
 
 services:
-  veld:
-    build: .
-    command: python /veld/code/eval_and_report.py
-    # TODO: check if this work dir is necessary
-    working_dir: /veld/code/
+  veld_eval_fasttext:
+    build: 
+      context: .
+      dockerfile: ./build_fasttext.dockerfile
+    #working_dir: /veld/code/
+    command: python -m ipdb -m eval_fasttext.run
     volumes:
-      - ./volumes/input/1/:/veld/input/1/
-      - ./volumes/input/2/:/veld/input/2/
-      - ./volumes/output/:/veld/output/
-      - ./src/:/veld/code/
-    environment:
-      model_path: null
-      model_metadata_path: null
-      eval_data_path: null
-      eval_results_folder: null
+      - ./src/:/veld/code/:z
+    #environment:
+    #  in_model_file: null
+    #  in_model_metadata_file: null
+    #  in_eval_gold_data_file: null
+    #  out_eval_summary_file: null
+    #  out_eval_log_file: null
 
