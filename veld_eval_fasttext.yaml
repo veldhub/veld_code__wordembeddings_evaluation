@@ -55,8 +55,7 @@ services:
     build: 
       context: .
       dockerfile: ./build_fasttext.dockerfile
-    #working_dir: /veld/code/
-    command: python -m ipdb -m eval_fasttext.run
+    command: python eval_fasttext.py
     volumes:
       - ./src/:/veld/code/:z
     #environment:

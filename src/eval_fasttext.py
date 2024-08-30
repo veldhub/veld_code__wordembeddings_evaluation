@@ -4,7 +4,7 @@ import fasttext
 import numpy as np
 import yaml
 
-from shared.eval_and_report import run
+from shared_eval_and_report import run
 
 
 # model data
