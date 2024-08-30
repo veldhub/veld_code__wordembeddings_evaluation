@@ -4,7 +4,7 @@ import fasttext
 import numpy as np
 import yaml
 
-from shared_eval_and_report import run
+from shared_eval_and_report import run, ModelLogicContainer
 
 
 # model data
@@ -23,7 +23,7 @@ with open(IN_MODEL_METADATA_PATH, "r") as f:
     }
 
 
-class ModelLogicContainer:
+class ModelLogicContainerFasttext(ModelLogicContainer):
 
     def __init__(self):
         self.metadata = IN_MODEL_METADATA
@@ -40,6 +40,6 @@ class ModelLogicContainer:
 
 
 if __name__ == "__main__":
-    mlc = ModelLogicContainer()
+    mlc = ModelLogicContainerFasttext()
     run(mlc)
 

@@ -15,8 +15,10 @@ class ModelLogicContainer:
     overwritten.
     """
 
-    def __init__(self, metadata):
-        self.metadata = metadata
+    def __init__(self):
+        # TODO: implement initialization here. The following attributes must be set.
+        self.metadata = None
+        self.model = None
 
     def cos_sim_of_words(self, w1, w2):
         """
