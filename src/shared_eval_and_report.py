@@ -3,7 +3,8 @@ import os
 import yaml
 
 
-IN_EVAL_GOLD_DATA_PATH = "/veld/input/2/" + os.getenv("in_eval_gold_data_file")
+IN_EVAL_GOLD_DATA_FILE = os.getenv("in_eval_gold_data_file")
+IN_EVAL_GOLD_DATA_PATH = "/veld/input/2/" + IN_EVAL_GOLD_DATA_FILE
 OUT_EVAL_SUMMARY_PATH = "/veld/output/1/" +  os.getenv("out_eval_summary_file")
 OUT_EVAL_LOG_PATH = "/veld/output/2/" + os.getenv("out_eval_log_file")
 log_cache = ""
@@ -16,7 +17,7 @@ class ModelLogicContainer:
     """
 
     def __init__(self):
-        # TODO: implement initialization here. The following attributes must be set.
+        # implement initialization here. The following attributes must be set.
         self.metadata = None
         self.model = None
 
@@ -32,7 +33,7 @@ class ModelLogicContainer:
         float: cosine similarity, ranging from 0 to 1 
         """
 
-        # TODO: implement vector comparision here
+        # implement vector comparision here
         pass
 
 
@@ -50,6 +51,7 @@ def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_
     print_and_cache(f"cosine simliarity between '{word_base}' and '{word_distant}': {sim_base_distant}")
     print_and_cache(f"score: {score}")
     return score
+
 
 def calculate_score(cos_sim_fun):
     with open(IN_EVAL_GOLD_DATA_PATH) as f:
@@ -145,7 +147,8 @@ def write_summary_and_log(score_all_dict, model_metadata):
     dict_arch = summary_dict.get(model_metadata["architecture"], {})
     summary_dict[model_metadata["architecture"]] = dict_arch
     summary_dict[model_metadata["architecture"]][model_metadata["model_id"]] = {
-        "info": model_metadata["details"],
+        "gold_data": IN_EVAL_GOLD_DATA_FILE,
+        "info": model_metadata["additional"],
         "score": score_all_dict,
     }
     summary_dict = sort_dict_recursively(summary_dict)

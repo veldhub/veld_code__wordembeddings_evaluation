@@ -18,7 +18,7 @@ with open(IN_MODEL_METADATA_PATH, "r") as f:
     IN_MODEL_METADATA = {
         "architecture": "word2vec", 
         "model_id": IN_MODEL_FILE.replace(".bin", ""),
-        "details": IN_MODEL_METADATA["x-veld"]["data"]["details"],
+        "additional": IN_MODEL_METADATA["x-veld"]["data"]["additional"],
     }
 
 
