@@ -58,10 +58,10 @@ services:
     command: python eval_fasttext.py
     volumes:
       - ./src/:/veld/code/:z
-    #environment:
-    #  in_model_file: null
-    #  in_model_metadata_file: null
-    #  in_eval_gold_data_file: null
-    #  out_eval_summary_file: null
-    #  out_eval_log_file: null
+    environment:
+      in_model_file: null
+      in_model_metadata_file: null
+      in_eval_gold_data_file: null
+      out_eval_summary_file: null
+      out_eval_log_file: null
 
