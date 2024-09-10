@@ -121,8 +121,9 @@ def write_summary_and_log(score_all_dict, model_metadata):
                 d_new["synonyms"] = d.pop("synonyms")
                 d_new["homonyms"] = d.pop("homonyms")
                 d_new["antonyms"] = d.pop("antonyms")
-            elif "score" and "info" in d:
-                d_new["info"] = sort_dict_recursively(d.pop("info"))
+            elif "score" and "info" and "eval_gold_data" in d:
+                d_new["eval_gold_data"] = d.pop("eval_gold_data")
+                d_new["model_details"] = sort_dict_recursively(d.pop("model_details"))
                 d_new["score"] = sort_dict_recursively(d.pop("score"))
 
             # remaining elements sorted alphabetically
@@ -140,15 +141,16 @@ def write_summary_and_log(score_all_dict, model_metadata):
 
     # create or load existing summary_dict
     summary_dict = {}
-    with open(OUT_EVAL_SUMMARY_PATH, "r") as f:
-        summary_dict_from_file = yaml.safe_load(f)
-        if summary_dict_from_file is not None:
-            summary_dict = summary_dict_from_file
+    try:
+        with open(OUT_EVAL_SUMMARY_PATH, "r") as f:
+            summary_dict = yaml.safe_load(f)
+    except FileNotFoundError:
+        summary_dict = {}
     dict_arch = summary_dict.get(model_metadata["architecture"], {})
     summary_dict[model_metadata["architecture"]] = dict_arch
     summary_dict[model_metadata["architecture"]][model_metadata["model_id"]] = {
-        "gold_data": IN_EVAL_GOLD_DATA_FILE,
-        "info": model_metadata["additional"],
+        "eval_gold_data": IN_EVAL_GOLD_DATA_FILE,
+        "model_details": model_metadata["additional"],
         "score": score_all_dict,
     }
     summary_dict = sort_dict_recursively(summary_dict)
