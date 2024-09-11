@@ -15,11 +15,7 @@ IN_MODEL_METADATA_PATH = "/veld/input/1/" + os.getenv("in_model_metadata_file")
 # load meta info
 with open(IN_MODEL_METADATA_PATH, "r") as f:
     IN_MODEL_METADATA = yaml.safe_load(f)
-    IN_MODEL_METADATA = {
-        "architecture": "word2vec", 
-        "model_id": IN_MODEL_FILE.replace(".bin", ""),
-        "additional": IN_MODEL_METADATA["x-veld"]["data"]["additional"],
-    }
+    IN_MODEL_METADATA = IN_MODEL_METADATA["x-veld"]["data"]["additional"]
 
 
 class ModelLogicContainerWord2vec(ModelLogicContainer):

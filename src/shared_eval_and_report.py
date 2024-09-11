@@ -51,7 +51,7 @@ def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_
         print_and_cache(f"cosine similarity between '{word_base}' and '{word_distant}': {sim_base_distant}")
         score = sim_base_close - sim_base_distant
     except:
-        print(f"model couldn't process one or more of the words '{word_base}', '{word_close}' and '{word_distant}'. Giving a score of -1")
+        print_and_cache(f"model couldn't process one or more of the words '{word_base}', '{word_close}' and '{word_distant}'. Giving a score of -1")
         score = -1
     print_and_cache(f"score: {score}")
     return score
@@ -150,11 +150,13 @@ def write_summary_and_log(score_all_dict, model_metadata):
             summary_dict = yaml.safe_load(f)
     except FileNotFoundError:
         summary_dict = {}
-    dict_arch = summary_dict.get(model_metadata["architecture"], {})
-    summary_dict[model_metadata["architecture"]] = dict_arch
-    summary_dict[model_metadata["architecture"]][model_metadata["model_id"]] = {
+    model_arch = model_metadata.pop("training_architecture")
+    model_id = model_metadata.pop("model_id")
+    dict_arch = summary_dict.get(model_arch, {})
+    summary_dict[model_arch] = dict_arch
+    summary_dict[model_arch][model_id] = {
         "eval_gold_data": IN_EVAL_GOLD_DATA_FILE,
-        "model_details": model_metadata["additional"],
+        "model_details": model_metadata,
         "score": score_all_dict,
     }
     # summary_dict = sort_dict_recursively(summary_dict)

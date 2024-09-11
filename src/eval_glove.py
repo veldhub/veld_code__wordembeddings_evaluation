@@ -15,11 +15,7 @@ MODEL_ID = os.getenv("model_id")
 # load meta info
 with open(IN_MODEL_METADATA_PATH, "r") as f:
     IN_MODEL_METADATA = yaml.safe_load(f)
-    IN_MODEL_METADATA = {
-        "architecture": "glove", 
-        "model_id": MODEL_ID,
-        "additional": IN_MODEL_METADATA["x-veld"]["data"]["additional"],
-    }
+    IN_MODEL_METADATA = IN_MODEL_METADATA["x-veld"]["data"]["additional"]
 
 
 class ModelLogicContainerGlove(ModelLogicContainer):
