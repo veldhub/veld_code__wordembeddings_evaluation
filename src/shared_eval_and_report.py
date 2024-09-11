@@ -153,7 +153,7 @@ def write_summary_and_log(score_all_dict, model_metadata):
         "model_details": model_metadata["additional"],
         "score": score_all_dict,
     }
-    summary_dict = sort_dict_recursively(summary_dict)
+    # summary_dict = sort_dict_recursively(summary_dict)
 
     # write summary dict
     with open(OUT_EVAL_SUMMARY_PATH, "w") as f:
