@@ -2,7 +2,7 @@ x-veld:
   code:
 
 services:
-  veld_eval_fasttext:
+  veld_eval_glove:
     build: 
       context: .
       dockerfile: ./build_glove.dockerfile
@@ -10,7 +10,8 @@ services:
     volumes:
       - ./src/:/veld/code/:z
     environment:
-      in_model_file: null
+      in_vector_file: null
+      model_id: null
       in_model_metadata_file: null
       in_eval_gold_data_file: null
       out_eval_summary_file: null
