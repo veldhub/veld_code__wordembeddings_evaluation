@@ -44,11 +44,15 @@ def print_and_cache(m):
 
 
 def calculate_closeness_score_of_words(word_base, word_close, word_distant, cos_sim_func):
-    sim_base_close = cos_sim_func(word_base, word_close)
-    sim_base_distant = cos_sim_func(word_base, word_distant)
-    score = sim_base_close - sim_base_distant
-    print_and_cache(f"cosine simliarity between '{word_base}' and '{word_close}': {sim_base_close}")
-    print_and_cache(f"cosine simliarity between '{word_base}' and '{word_distant}': {sim_base_distant}")
+    try:
+        sim_base_close = cos_sim_func(word_base, word_close)
+        sim_base_distant = cos_sim_func(word_base, word_distant)
+        print_and_cache(f"cosine similarity between '{word_base}' and '{word_close}': {sim_base_close}")
+        print_and_cache(f"cosine similarity between '{word_base}' and '{word_distant}': {sim_base_distant}")
+        score = sim_base_close - sim_base_distant
+    except:
+        print(f"model couldn't process one or more of the words '{word_base}', '{word_close}' and '{word_distant}'. Giving a score of -1")
+        score = -1
     print_and_cache(f"score: {score}")
     return score
 
