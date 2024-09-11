@@ -6,7 +6,7 @@ services:
     build: 
       context: .
       dockerfile: ./build_glove.dockerfile
-    command: python eval_glove.py
+    command: python3 eval_glove.py
     volumes:
       - ./src/:/veld/code/:z
     environment:
