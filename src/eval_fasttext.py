@@ -8,8 +8,8 @@ from shared_eval_and_report import run, ModelLogicContainer
 
 
 # model data
-IN_MODEL_PATH = "/veld/input/1/" + os.getenv("in_model_file")
-IN_MODEL_METADATA_PATH = "/veld/input/1/" + os.getenv("in_model_metadata_file")
+IN_MODEL_PATH = "/veld/input/1/" + os.getenv("in_1_model_file")
+IN_MODEL_METADATA_PATH = "/veld/input/1/" + os.getenv("in_1_model_metadata_file")
 
 
 class ModelLogicContainerFasttext(ModelLogicContainer):

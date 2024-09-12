@@ -10,10 +10,10 @@ services:
     volumes:
       - ./src/:/veld/code/:z
     environment:
-      in_vector_file: null
+      in_1_vector_file: null
       model_id: null
-      in_model_metadata_file: null
-      in_eval_gold_data_file: null
-      out_eval_summary_file: null
-      out_eval_log_file: null
+      in_1_model_metadata_file: null
+      in_2_eval_gold_data_file: null
+      out_1_eval_summary_file: null
+      out_2_eval_log_file: null
 
