@@ -34,4 +34,6 @@ services:
       - ./src/analyse/:/veld/code/:z
     environment:
       in_evaluation_summary_file: null
+      out_visualization_html_file: null
+      out_visualization_png_file: null
 
