@@ -1,54 +1,37 @@
 x-veld:
   code:
-    about:
-      description: "self defined evaluation logic on word embeddings."
-      topics:
-        - "NLP"
-        - "Machine learning"
-        - "evaluation"
+    description: "custom evaluation logic on fasttext word embeddings."
+    topics:
+      - "NLP"
+      - "Machine learning"
+      - "evaluation"
 
     inputs:
       - volume: /veld/input/1/
-        file_formats: 
-          - "word2vec model"
-          - "fasttext model"
-          - "yaml"
+        environment: in_1_model_file
+        file_type: "fasttext model"
         contents:
           - "NLP model"
           - "word embeddings model"
-          - "metadata"
+      - volume: /veld/input/1/
+        environment: in_1_model_metadata_file
+        file_type: "yaml"
+        contents: "metadata"
       - volume: /veld/input/2/
-        file_formats: "yaml"
-        contents:
-          - "NLP evaluation data"
-          - "NLP data"
+        environment: in_2_eval_gold_data_file
+        file_type: "yaml"
+        contents: "NLP gold data"
 
     outputs:
-      volume: /veld/output/
-      file_formats: 
-        - "yaml"
-        - "txt"
-      contents:
-        - "NLP evaluation score"
-        - "logging"
-
-    environment:
-      model_path:
-        description: "path to model file."
-        type: path
-        path_prefix: "/veld/input/1/"
-      model_metadata_path:
-        description: "path to model metadata file."
-        type: path
-        path_prefix: "/veld/input/1/"
-      eval_data_path:
-        description: "path to evaluation yaml file."
-        type: path
-        path_prefix: "/veld/input/2/"
-      eval_results_folder:
-        description: "path to folder where summary and logs will be saved to."
-        type: path
-        path_prefix: "/veld/output/"
+      - volume: /veld/output/1/
+        environment: out_1_eval_summary_file
+        file_type: "yaml"
+        description: ""
+        contents: ""
+      - volume: /veld/output/2/
+        environment: out_2_eval_log_file
+        file_type: "txt"
+        contents: "logs"
 
 services:
   veld_eval_fasttext:

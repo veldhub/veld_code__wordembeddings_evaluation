@@ -1,64 +1,39 @@
 x-veld:
   code:
-    description: "running custom evaluation logic on word embeddings."
+    description: "custom evaluation logic on word2vec word embeddings."
     topics:
       - "NLP"
-      - "Machine Learning"
-      - "word embeddings"
-      - "model evaluation"
+      - "Machine learning"
+      - "evaluation"
 
     inputs:
-      - description: "word2vec model file to be evaluated"
-        volume: /veld/input/1/
-        environment: 
-          - in_1_model_file
-          - in_1_model_metadata_file
-        file_type: 
-          - "word2vec model"
-          - "yaml"
+      - volume: /veld/input/1/
+        environment: in_1_model_file
+        description: "word2vec model file to be evaluated"
+        file_type: "word2vec model"
         contents:
           - "NLP model"
           - "word embeddings model"
-          - "model metadata"
-
-      - description: "evaluation gold data for german word embeddings"
-        volume: /veld/input/2/
+      - volume: /veld/input/1/
+        environment: in_1_model_metadata_file
+        description: "word2vec model metadata"
+        file_type: "yaml"
+        contents: "metadata"
+      - volume: /veld/input/2/
         environment: in_2_eval_gold_data_file
         file_type: "yaml"
-        contents:
-          - "NLP evaluation data"
-          - "NLP data"
+        contents: "NLP gold data"
 
     outputs:
-      - description: "evaluation results, expressed as an addition to a summary yaml file, containing other model evaluations as well. Besides scores, model and training metadata is also persisted"
-        volume: /veld/output/1/
+      - volume: /veld/output/1/
         environment: out_1_eval_summary_file
         file_type: "yaml"
-        contents: 
-          - "NLP model evaluation"
-          - "word embeddings model evaluation"
-
-      - description: "log file containing more detailed evaluation results"
-        volume: /veld/output/2/
+        description: ""
+        contents: ""
+      - volume: /veld/output/2/
         environment: out_2_eval_log_file
         file_type: "txt"
-        contents: 
-          - "NLP model evaluation"
-          - "word embeddings model evaluation"
-          - "log"
-
-    environment:
-      in_1_model_file:
-        description: "name of the model file."
-      in_1_model_metadata_file:
-        description: "name of the model metadata file."
-        optional: true
-      in_2_eval_gold_data_file:
-        description: "name of the evaluation gold data file."
-      out_1_eval_summary_file:
-        description: "name of the evaluation yaml file."
-      out_2_eval_log_file:
-        description: "name of the evaluation log file"
+        contents: "logs"
 
 services:
   veld_eval_word2vec:
