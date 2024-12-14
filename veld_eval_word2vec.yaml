@@ -7,31 +7,31 @@ x-veld:
       - "evaluation"
 
     inputs:
-      - volume: /veld/input/1/
-        environment: in_1_model_file
+      - volume: /veld/input/model/
+        environment: in_model_file
         description: "word2vec model file to be evaluated"
         file_type: "word2vec model"
         contents:
           - "NLP model"
           - "word embeddings model"
-      - volume: /veld/input/1/
-        environment: in_1_model_metadata_file
+      - volume: /veld/input/model/
+        environment: in_model_metadata_file
         description: "word2vec model metadata"
         file_type: "yaml"
         contents: "metadata"
-      - volume: /veld/input/2/
-        environment: in_2_eval_gold_data_file
+      - volume: /veld/input/eval_data/
+        environment: in_eval_gold_data_file
         file_type: "yaml"
         contents: "NLP gold data"
 
     outputs:
-      - volume: /veld/output/1/
-        environment: out_1_eval_summary_file
+      - volume: /veld/output/summary/
+        environment: out_eval_summary_file
         file_type: "yaml"
         description: ""
         contents: ""
-      - volume: /veld/output/2/
-        environment: out_2_eval_log_file
+      - volume: /veld/output/log/
+        environment: out_eval_log_file
         file_type: "txt"
         contents: "logs"
 

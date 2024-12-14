@@ -3,10 +3,10 @@ import os
 import yaml
 
 
-IN_EVAL_GOLD_DATA_FILE = os.getenv("in_2_eval_gold_data_file")
-IN_EVAL_GOLD_DATA_PATH = "/veld/input/2/" + IN_EVAL_GOLD_DATA_FILE
-OUT_EVAL_SUMMARY_PATH = "/veld/output/1/" +  os.getenv("out_1_eval_summary_file")
-OUT_EVAL_LOG_PATH = "/veld/output/2/" + os.getenv("out_2_eval_log_file")
+IN_EVAL_GOLD_DATA_FILE = os.getenv("in_eval_gold_data_file")
+IN_EVAL_GOLD_DATA_PATH = "/veld/input/eval_data/" + IN_EVAL_GOLD_DATA_FILE
+OUT_EVAL_SUMMARY_PATH = "/veld/output/summary/" +  os.getenv("out_eval_summary_file")
+OUT_EVAL_LOG_PATH = "/veld/output/log/" + os.getenv("out_eval_log_file")
 log_cache = ""
 
 

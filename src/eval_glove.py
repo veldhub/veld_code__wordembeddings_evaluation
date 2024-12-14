@@ -7,8 +7,8 @@ from shared_eval_and_report import run, ModelLogicContainer
 
 
 # model data
-IN_VECTOR_PATH = "/veld/input/1/" + os.getenv("in_1_vector_file")
-IN_MODEL_METADATA_PATH = "/veld/input/1/" + os.getenv("in_1_model_metadata_file")
+IN_VECTOR_PATH = "/veld/input/model/" + os.getenv("in_vector_file")
+IN_MODEL_METADATA_PATH = "/veld/input/model/" + os.getenv("in_model_metadata_file")
 MODEL_ID = os.getenv("model_id")
 
 
