@@ -20,7 +20,7 @@ x-veld:
         file_type: "yaml"
         content: "metadata"
       - volume: /veld/input/eval_data/
-        environment: in_eval_gold_data_file
+        environment_var: in_eval_gold_data_file
         file_type: "yaml"
         content: "NLP gold data"
 

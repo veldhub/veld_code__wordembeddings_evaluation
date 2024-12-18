@@ -28,7 +28,7 @@ x-veld:
         file_type: "yaml"
         description: ""
       - volume: /veld/output/log/
-        environment: out_eval_log_file
+        environment_var: out_eval_log_file
         file_type: "txt"
         content: "logs"
 
