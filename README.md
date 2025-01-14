@@ -22,7 +22,6 @@ docker compose -f <VELD_NAME>.yaml up
 ```
 
 ## contained code velds
-nformation.
 
 **[./veld_analyse_evaluation.yaml](./veld_analyse_evaluation.yaml)**
 
