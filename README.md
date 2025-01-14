@@ -3,7 +3,6 @@
 This repo contains [code velds](https://zenodo.org/records/13322913) encapsulating evaluation of 
 wordembeddings trained by various architectures.
 
-
 ## requirements
 
 - git
